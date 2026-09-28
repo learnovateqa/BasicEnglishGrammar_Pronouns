@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar Starter E-Quiz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            paletteLightPink: '#FCE7F3',
+            paletteSoftPink: '#FBCFE8',
+            paletteMagenta: '#DB2777',
+            paletteDeepPink: '#BE185D',
+            paletteYellow: '#FEF08A',
+            paletteSoftYellow: '#FEF9C3',
+            paletteRose: '#F43F5E',
+            paletteAccent: '#8B5CF6'
+          },
+          fontFamily: {
+            heading: ['Fredoka', 'sans-serif'],
+            body: ['Plus Jakarta Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      background-color: #FAF5FF;
+    }
+    .card-shadow {
+      box-shadow: 0 10px 25px -5px rgba(219, 39, 119, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F3E8FF;
+      border-radius: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #F472B6;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col justify-between text-[13px]">
+
+  <header class="bg-white/90 backdrop-blur-md border-b border-rose-100 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-paletteMagenta to-rose-400 text-white flex items-center justify-center font-bold text-xl shadow-md">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div>
+          <h1 class="font-heading font-bold text-xl text-slate-900 leading-tight">Grammar Starter E-Quiz</h1>
+          <p class="text-xs text-rose-500 font-medium">Pronoun Mastery Assessment</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-4">
+        <button id="nav-reviewer-btn" onclick="switchTab('reviewer')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 bg-rose-100 text-paletteMagenta hover:bg-rose-200">
+          <i class="fa-solid fa-book-open"></i> <span class="hidden sm:inline">Study Reviewer</span>
+        </button>
+        <button id="nav-exam-btn" onclick="switchTab('landing')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 bg-slate-100 text-slate-600 hover:bg-slate-200">
+          <i class="fa-solid fa-pen-to-square"></i> <span class="hidden sm:inline">Take E-Quiz</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+
+    <!-- VIEW 1: LANDING & STUDENT REGISTRATION VIEW -->
+    <div id="view-landing" class="space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- LEFT COLUMN: STUDENT REGISTRATION FORM -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-white rounded-3xl p-6 border border-rose-100 card-shadow relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-paletteLightPink/50 rounded-full blur-2xl"></div>
+            
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 rounded-2xl bg-pink-100 text-paletteMagenta flex items-center justify-center text-xl font-bold">
+                <i class="fa-solid fa-user-pen"></i>
+              </div>
+              <div>
+                <h2 class="text-xl font-bold font-heading text-slate-900">Student Registration</h2>
+                <p class="text-xs text-slate-500">Enter your details before starting the e-quiz</p>
+              </div>
+            </div>
+
+            <form id="registration-form" onsubmit="handleRegistrationSubmit(event)" class="space-y-4">
+              <div>
+                <label for="student-name" class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name <span class="text-rose-500">*</span></label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                    <i class="fa-solid fa-user"></i>
+                  </span>
+                  <input type="text" id="student-name" required placeholder="e.g. Maria Santos" class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:border-paletteMagenta focus:bg-white transition">
+                </div>
+              </div>
+
+              <div>
+                <label for="student-email" class="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address <span class="text-rose-500">*</span></label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                    <i class="fa-solid fa-envelope"></i>
+                  </span>
+                  <input type="email" id="student-email" required placeholder="e.g. student@example.com" class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:border-paletteMagenta focus:bg-white transition">
+                </div>
+              </div>
+
+              <!-- Exam Stats Summary -->
+              <div class="grid grid-cols-3 gap-2 my-4">
+                <div class="bg-purple-50 border border-purple-100 rounded-xl p-2 text-center">
+                  <span class="block text-[10px] uppercase font-bold text-purple-600">Total Items</span>
+                  <span class="text-base font-bold text-purple-900 font-heading">100</span>
+                </div>
+                <div class="bg-pink-50 border border-pink-100 rounded-xl p-2 text-center">
+                  <span class="block text-[10px] uppercase font-bold text-pink-600">Time Limit</span>
+                  <span class="text-base font-bold text-pink-900 font-heading">75 Mins</span>
+                </div>
+                <div class="bg-rose-50 border border-rose-200 rounded-xl p-2 text-center">
+                  <span class="block text-[10px] uppercase font-bold text-rose-600">Pass Mark</span>
+                  <span class="text-base font-bold text-rose-800 font-heading">75%</span>
+                </div>
+              </div>
+
+              <button type="submit" class="w-full py-3.5 bg-paletteMagenta hover:bg-paletteDeepPink text-white font-bold rounded-xl shadow-md hover:shadow-lg transition transform active:scale-95 text-xs sm:text-sm flex items-center justify-center gap-2 font-heading">
+                <i class="fa-solid fa-play"></i> Register & Start E-Quiz
+              </button>
+            </form>
+
+            <p class="text-[11px] text-slate-400 mt-4 text-center leading-relaxed">
+              Rules: Timer (75 minutes) starts immediately upon registration. 100 questions divided into Part 1 (1-50) and Part 2 (51-100). Results will be automatically submitted upon completion.
+            </p>
+          </div>
+
+          <!-- GRAMMAR QUICK TIP CARD -->
+          <div class="bg-paletteSoftYellow/80 border-2 border-paletteYellow rounded-2xl p-4 card-shadow">
+            <div class="flex items-center gap-2 text-amber-900 font-bold text-xs mb-1 font-heading">
+              <i class="fa-solid fa-lightbulb text-amber-500 text-sm"></i> GRAMMAR QUICK TIP
+            </div>
+            <p class="text-xs text-amber-900 leading-relaxed font-medium">
+              <strong>What is a Pronoun?</strong><br>
+              A pronoun is a word that takes the place of a noun in a sentence, helping to avoid repetitive phrasing and maintaining smooth speech and writing flow!
+            </p>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: STUDY REVIEWER MODULES -->
+        <div class="lg:col-span-7">
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 card-shadow space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div>
+                <h2 class="text-xl font-bold text-slate-900 font-heading">Study Reviewer – Pronoun Masterclass Guide</h2>
+                <p class="text-xs text-slate-500">Comprehensive overview with detailed examples for each category</p>
+              </div>
+              <button onclick="switchTab('reviewer')" class="text-xs font-bold text-paletteMagenta hover:underline">
+                View Full Guide <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+                <span class="inline-block px-2 py-0.5 bg-pink-100 text-pink-700 text-[11px] font-bold rounded-md mb-1">Module 1</span>
+                <h4 class="font-bold text-xs text-slate-800">Subject vs. Object Pronouns</h4>
+                <p class="text-xs text-slate-500 mt-1">Subjects perform actions (I, she, they); objects receive them (me, her, them).</p>
+              </div>
+              <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+                <span class="inline-block px-2 py-0.5 bg-purple-100 text-purple-700 text-[11px] font-bold rounded-md mb-1">Module 2</span>
+                <h4 class="font-bold text-xs text-slate-800">Possessive Adjectives & Pronouns</h4>
+                <p class="text-xs text-slate-500 mt-1">Adjectives precede nouns (my book); pronouns stand alone (mine).</p>
+              </div>
+              <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+                <span class="inline-block px-2 py-0.5 bg-yellow-100 text-yellow-800 text-[11px] font-bold rounded-md mb-1">Module 3</span>
+                <h4 class="font-bold text-xs text-slate-800">Reflexive & Intensive Pronouns</h4>
+                <p class="text-xs text-slate-500 mt-1">Reflect back actions (himself) or provide intense emphasis.</p>
+              </div>
+              <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+                <span class="inline-block px-2 py-0.5 bg-blue-100 text-blue-700 text-[11px] font-bold rounded-md mb-1">Module 4</span>
+                <h4 class="font-bold text-xs text-slate-800">Relative & Indefinite Pronouns</h4>
+                <p class="text-xs text-slate-500 mt-1">Connect clauses (who, whom, whose) and cover non-specific entities.</p>
+              </div>
+            </div>
+            
+            <div class="bg-pink-50/60 p-4 rounded-2xl border border-pink-100 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <i class="fa-solid fa-list-check text-paletteMagenta text-xl"></i>
+                <div>
+                  <h4 class="text-xs font-bold text-slate-800">Ready to test your knowledge?</h4>
+                  <p class="text-xs text-slate-500">100 Comprehensive Multiple Choice Questions</p>
+                </div>
+              </div>
+              <button onclick="document.getElementById('student-name').focus()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition">
+                Register Above
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VIEW 2: FULL STUDY REVIEWER VIEW -->
+    <div id="view-reviewer" class="hidden space-y-6">
+      <div class="bg-white rounded-3xl p-6 border border-slate-200 card-shadow">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-4">
+          <div>
+            <h2 class="text-2xl font-bold font-heading text-slate-900">Comprehensive Pronoun Masterclass Study Guide</h2>
+            <p class="text-xs text-slate-500 font-medium">Detailed rules, distinctions, and clear examples for grammar starters</p>
+          </div>
+          <button onclick="switchTab('landing')" class="px-5 py-2.5 bg-paletteMagenta text-white font-bold rounded-xl text-xs shadow hover:bg-paletteDeepPink transition">
+            Go To Registration <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          
+          <!-- Section 1 -->
+          <div class="border border-pink-100 rounded-2xl p-5 bg-gradient-to-br from-white to-pink-50/30 space-y-3">
+            <div class="flex items-center gap-2 text-paletteMagenta font-bold text-sm font-heading">
+              <span class="w-6 h-6 rounded-full bg-paletteLightPink text-paletteMagenta flex items-center justify-center text-xs">1</span>
+              Subject Pronouns vs. Object Pronouns
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>Subject Pronouns</strong> act as the main doer of the verb in a sentence. List: <em>I, you, he, she, it, we, they</em>.
+            </p>
+            <div class="p-2.5 bg-white rounded-xl border border-pink-100 text-[11px] text-slate-700">
+              <strong>Examples:</strong><br>
+              • <em>She</em> baked a delicious chocolate cake for dinner.<br>
+              • <em>They</em> arrived at the conference early this morning.
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>Object Pronouns</strong> receive the action of the verb or follow prepositions. List: <em>me, you, him, her, it, us, them</em>.
+            </p>
+            <div class="p-2.5 bg-white rounded-xl border border-pink-100 text-[11px] text-slate-700">
+              <strong>Examples:</strong><br>
+              • The manager thanked <em>us</em> for our hard work.<br>
+              • Please hand the important documents to <em>him</em>.
+            </div>
+          </div>
+
+          <!-- Section 2 -->
+          <div class="border border-purple-100 rounded-2xl p-5 bg-gradient-to-br from-white to-purple-50/30 space-y-3">
+            <div class="flex items-center gap-2 text-purple-700 font-bold text-sm font-heading">
+              <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs">2</span>
+              Possessive Adjectives vs. Possessive Pronouns
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>Possessive Adjectives</strong> always stand directly *before* a noun to modify it. List: <em>my, your, his, her, its, our, their</em>.
+            </p>
+            <div class="p-2.5 bg-white rounded-xl border border-purple-100 text-[11px] text-slate-700">
+              <strong>Examples:</strong><br>
+              • This is <em>my</em> favorite blue notebook.<br>
+              • Have you seen <em>their</em> new puppy?
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>Possessive Pronouns</strong> replace the noun entirely and stand alone without repetition. List: <em>mine, yours, his, hers, ours, theirs</em>.
+            </p>
+            <div class="p-2.5 bg-white rounded-xl border border-purple-100 text-[11px] text-slate-700">
+              <strong>Examples:</strong><br>
+              • That blue notebook on the desk is <em>mine</em>.<br>
+              • Our house is large, but <em>theirs</em> is even larger.
+            </div>
+          </div>
+
+          <!-- Section 3 -->
+          <div class="border border-yellow-200 rounded-2xl p-5 bg-gradient-to-br from-white to-amber-50/30 space-y-3">
+            <div class="flex items-center gap-2 text-amber-800 font-bold text-sm font-heading">
+              <span class="w-6 h-6 rounded-full bg-yellow-100 text-amber-800 flex items-center justify-center text-xs">3</span>
+              Reflexive vs. Intensive Pronouns
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Words ending in <em>-self</em> or <em>-selves</em> (<em>myself, yourself, himself, herself, itself, ourselves, yourselves, themselves</em>).
+            </p>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>Reflexive Pronouns:</strong> Used when the subject and object are identical (the subject does the action to itself).
+            </p>
+            <div class="p-2.5 bg-white rounded-xl border border-yellow-200 text-[11px] text-slate-700">
+              <strong>Example:</strong> He accidentally cut <em>himself</em> while carving wood.
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>Intensive Pronouns:</strong> Used solely to emphasize a noun or subject right next to it.
+            </p>
+            <div class="p-2.5 bg-white rounded-xl border border-yellow-200 text-[11px] text-slate-700">
+              <strong>Example:</strong> The director <em>himself</em> signed the contract papers.
+            </div>
+          </div>
+
+          <!-- Section 4 -->
+          <div class="border border-blue-100 rounded-2xl p-5 bg-gradient-to-br from-white to-blue-50/30 space-y-3">
+            <div class="flex items-center gap-2 text-blue-700 font-bold text-sm font-heading">
+              <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs">4</span>
+              Demonstrative & Interrogative Pronouns
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>Demonstrative Pronouns</strong> point to specific items. Singular: <em>this, that</em>. Plural: <em>these, those</em>.
+            </p>
+            <div class="p-2.5 bg-white rounded-xl border border-blue-100 text-[11px] text-slate-700">
+              <strong>Examples:</strong><br>
+              • <em>This</em> is an incredible painting.<br>
+              • <em>Those</em> are the mountains we hiked last year.
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>Interrogative Pronouns</strong> are used to ask direct or indirect questions (<em>who, whom, whose, what, which</em>).
+            </p>
+            <div class="p-2.5 bg-white rounded-xl border border-blue-100 text-[11px] text-slate-700">
+              <strong>Examples:</strong><br>
+              • <em>Who</em> left the back door unlocked?<br>
+              • <em>Which</em> flavor of ice cream do you prefer?
+            </div>
+          </div>
+
+          <!-- Section 5 -->
+          <div class="border border-emerald-100 rounded-2xl p-5 bg-gradient-to-br from-white to-emerald-50/30 space-y-3">
+            <div class="flex items-center gap-2 text-emerald-700 font-bold text-sm font-heading">
+              <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs">5</span>
+              Relative Pronouns (Who, Whom, Whose, Which)
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Relative pronouns connect dependent clauses back to nouns:
+            </p>
+            <div class="p-2.5 bg-white rounded-xl border border-emerald-100 text-[11px] text-slate-700 space-y-1">
+              • <strong>Who:</strong> Used for subjects (The student <em>who</em> scored highest...).<br>
+              • <strong>Whom:</strong> Used for objects (The candidate to <em>whom</em> you spoke...).<br>
+              • <strong>Whose:</strong> Shows possession (The artist <em>whose</em> work was displayed...).<br>
+              • <strong>Which/That:</strong> For things/animals (The car <em>that</em> broke down...).
+            </div>
+          </div>
+
+          <!-- Section 6 -->
+          <div class="border border-rose-100 rounded-2xl p-5 bg-gradient-to-br from-white to-rose-50/30 space-y-3">
+            <div class="flex items-center gap-2 text-rose-700 font-bold text-sm font-heading">
+              <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center text-xs">6</span>
+              Indefinite Pronouns & Subject-Verb Agreement
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Indefinite pronouns refer to non-specific people or things. 
+            </p>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>Always Singular:</strong> Words like <em>everyone, everybody, someone, nobody, anybody, each, either, neither</em> take singular verbs.
+            </p>
+            <div class="p-2.5 bg-white rounded-xl border border-rose-100 text-[11px] text-slate-700">
+              <strong>Example:</strong> <em>Everyone</em> in the auditorium <em>was</em> silent during the speech. (Not *were*).
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 3: EXAM INTERFACE -->
+    <div id="view-exam" class="hidden space-y-4">
+      
+      <!-- EXAM TOP BAR -->
+      <div class="bg-white rounded-2xl p-4 border border-rose-100 card-shadow flex flex-wrap items-center justify-between gap-4">
+        
+        <div class="flex items-center gap-4">
+          <div id="timer-badge" class="flex items-center gap-2 bg-pink-50 px-3 py-1.5 rounded-xl border border-pink-100 transition-colors">
+            <i class="fa-solid fa-clock text-paletteMagenta animate-pulse" id="timer-icon"></i>
+            <span id="timer-display" class="font-heading font-bold text-lg text-slate-800">75:00</span>
+          </div>
+
+          <div class="text-xs text-slate-500 font-medium">
+            Question <span id="current-question-num" class="font-bold text-slate-800">1</span> of 100
+          </div>
+        </div>
+
+        <div class="flex-grow max-w-xs hidden md:block">
+          <div class="flex justify-between text-[11px] font-bold text-slate-400 mb-1">
+            <span>Progress</span>
+            <span id="progress-percent">0%</span>
+          </div>
+          <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+            <div id="progress-bar-inner" class="bg-paletteMagenta h-full w-0 transition-all duration-300"></div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="confirmSubmitExam()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow transition">
+            Submit E-Quiz
+          </button>
+        </div>
+
+      </div>
+
+      <!-- MAIN EXAM AREA: QUESTION & PALETTE -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- LEFT: QUESTION CONTENT CARD -->
+        <div class="lg:col-span-8 space-y-4">
+          <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 card-shadow relative min-h-[380px] flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+                <span id="question-category" class="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">
+                  Part 1: Personal Pronouns
+                </span>
+                
+                <button id="flag-btn" onclick="toggleFlagCurrentQuestion()" class="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-amber-500 transition">
+                  <i class="fa-solid fa-bookmark"></i> <span id="flag-text">Flag Question</span>
+                </button>
+              </div>
+
+              <h3 id="question-text" class="text-base sm:text-lg font-bold text-slate-900 leading-snug mb-6">
+                Loading question...
+              </h3>
+
+              <div id="options-container" class="space-y-3">
+                <!-- Options populated dynamically -->
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-6 border-t border-slate-100 mt-6">
+              <button id="prev-btn" onclick="prevQuestion()" class="px-4 py-2.5 bg-slate-100 text-slate-700 rounded-xl font-bold text-xs hover:bg-slate-200 transition disabled:opacity-50">
+                <i class="fa-solid fa-chevron-left mr-1"></i> Previous
+              </button>
+              
+              <div class="flex gap-2">
+                <button id="part1-btn" onclick="jumpToQuestion(1)" class="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold hover:bg-slate-200">
+                  Part 1 (1-50)
+                </button>
+                <button id="part2-btn" onclick="jumpToQuestion(51)" class="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold hover:bg-slate-200">
+                  Part 2 (51-100)
+                </button>
+              </div>
+
+              <button id="next-btn" onclick="nextQuestion()" class="px-5 py-2.5 bg-paletteMagenta text-white rounded-xl font-bold text-xs hover:bg-paletteDeepPink transition shadow">
+                Next <i class="fa-solid fa-chevron-right ml-1"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- RIGHT: QUESTION PALETTE -->
+        <div class="lg:col-span-4 space-y-4">
+          <div class="bg-white rounded-3xl p-5 border border-slate-200 card-shadow">
+            <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
+              <h3 class="font-heading font-bold text-xs sm:text-sm text-slate-900">Question Palette</h3>
+              <span id="answered-count-badge" class="text-xs font-bold text-paletteMagenta bg-pink-100 px-2 py-0.5 rounded-full">0/100</span>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-500 mb-3 px-1">
+              <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-slate-100 border border-slate-300 inline-block"></span> Unanswered</span>
+              <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-paletteMagenta inline-block"></span> Answered</span>
+              <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span> Flagged</span>
+            </div>
+
+            <div id="palette-grid" class="grid grid-cols-5 sm:grid-cols-10 lg:grid-cols-5 gap-1.5 max-h-[380px] overflow-y-auto p-1">
+              <!-- Question navigation buttons populated dynamically -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VIEW 4: SCORE & SUBMISSION RESULTS -->
+    <div id="view-results" class="hidden space-y-6">
+      
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 card-shadow text-center relative overflow-hidden">
+        <div id="result-banner-bg" class="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-purple-500/10 pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-2xl mx-auto space-y-4">
+          
+          <div id="result-avatar" class="w-20 h-20 rounded-full mx-auto flex items-center justify-center text-4xl shadow-md bg-white border-4 border-paletteLightPink text-paletteMagenta">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+
+          <h2 id="result-title" class="text-2xl sm:text-3xl font-bold font-heading text-slate-900">
+            E-Quiz Completed!
+          </h2>
+
+          <div class="bg-slate-50 rounded-2xl p-3 max-w-md mx-auto text-xs text-slate-600 border border-slate-200">
+            Student: <strong id="res-student-name" class="text-slate-800"></strong> | 
+            Email: <strong id="res-student-email" class="text-slate-800"></strong>
+          </div>
+
+          <!-- FORMSUBMIT SUBMISSION STATUS ALERT -->
+          <div id="submission-status-alert" class="p-3.5 rounded-2xl text-xs font-semibold flex items-center justify-center gap-2 bg-blue-50 text-blue-800 border border-blue-200">
+            <i class="fa-solid fa-spinner fa-spin"></i> Submitting results to mariaeftongga@gmail.com...
+          </div>
+
+          <!-- SCORE DISPLAY GRID -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3">
+              <span class="text-[11px] font-bold text-slate-400 uppercase block">Total Score</span>
+              <span id="final-score" class="text-2xl font-bold text-slate-800 font-heading">0/100</span>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3">
+              <span class="text-[11px] font-bold text-slate-400 uppercase block">Percentage</span>
+              <span id="final-percentage" class="text-2xl font-bold text-paletteMagenta font-heading">0%</span>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3">
+              <span class="text-[11px] font-bold text-slate-400 uppercase block">Status</span>
+              <span id="final-status" class="text-lg font-bold font-heading">PASS</span>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3">
+              <span class="text-[11px] font-bold text-slate-400 uppercase block">Time Used</span>
+              <span id="final-time-used" class="text-2xl font-bold text-slate-800 font-heading">00:00</span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap justify-center gap-3 pt-4">
+            <button onclick="retakeExam()" class="px-6 py-3 bg-paletteMagenta hover:bg-paletteDeepPink text-white font-bold rounded-xl text-xs shadow-md transition font-heading">
+              <i class="fa-solid fa-rotate-right mr-1"></i> Retake E-Quiz
+            </button>
+            <button onclick="switchTab('reviewer')" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition font-heading">
+              <i class="fa-solid fa-book-open mr-1"></i> Review Guide
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ITEM BY ITEM REVIEW SECTION -->
+      <div class="bg-white rounded-3xl p-6 border border-slate-200 card-shadow">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+          <div>
+            <h3 class="text-xl font-bold font-heading text-slate-900">Detailed Item Review</h3>
+            <p class="text-xs text-slate-500">Review all 100 questions with complete answers and explanations</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="filterReview('all')" class="px-3 py-1.5 bg-slate-900 text-white text-xs font-bold rounded-lg">All (100)</button>
+            <button onclick="filterReview('incorrect')" class="px-3 py-1.5 bg-rose-100 text-rose-700 text-xs font-bold rounded-lg hover:bg-rose-200">Incorrect</button>
+          </div>
+        </div>
+
+        <div id="item-review-list" class="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+          <!-- Dynamically populated review cards -->
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-100 py-4 mt-8">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs font-semibold text-slate-600">
+      Designed and Coded by Ms. Maria
+    </div>
+  </footer>
+
+  <script>
+    // Answers encoded via Base64 to prevent direct inspection in source code
+    const questions = [
+      { id: 1, text: "_____ went to the market to buy fresh vegetables.", options: ["She", "Her", "Hers", "Herself"], ansCode: "MA==", category: "Part 1: Subject Pronouns", hint: "Use a subject pronoun ('She') to perform the main action." },
+      { id: 2, text: "Can you please pass the book to _____?", options: ["I", "me", "my", "mine"], ansCode: "MQ==", category: "Part 1: Object Pronouns", hint: "'Me' is an object pronoun receiving the action of passing." },
+      { id: 3, text: "This jacket belongs to John. It is _____.", options: ["his", "him", "he", "himself"], ansCode: "MA==", category: "Part 1: Possessive Pronouns", hint: "'His' functions as a standalone possessive pronoun." },
+      { id: 4, text: "_____ are my favorite pair of shoes right here.", options: ["This", "That", "These", "Those"], ansCode: "Mg==", category: "Part 1: Demonstrative Pronouns", hint: "Use 'These' for plural items close to the speaker." },
+      { id: 5, text: "_____ left their coat on the chair?", options: ["Who", "Whom", "Whose", "Which"], ansCode: "MA==", category: "Part 1: Interrogative Pronouns", hint: "'Who' asks about the subject performing the action." },
+      { id: 6, text: "My sister and _____ went to the library yesterday.", options: ["me", "I", "myself", "mine"], ansCode: "MQ==", category: "Part 1: Subject Pronouns", hint: "Use subject pronoun 'I' when part of a compound subject (My sister and I)." },
+      { id: 7, text: "The teacher congratulated Sarah and _____ on the project.", options: ["he", "him", "his", "himself"], ansCode: "MQ==", category: "Part 1: Object Pronouns", hint: "'Him' receives the action of congratulating along with Sarah." },
+      { id: 8, text: "That blue bicycle over there is _____.", options: ["my", "mine", "me", "I"], ansCode: "MQ==", category: "Part 1: Possessive Pronouns", hint: "'Mine' stands alone at the end of a sentence without a noun following." },
+      { id: 9, text: "Look at _____ house across the street!", options: ["this", "that", "these", "those"], ansCode: "MQ==", category: "Part 1: Demonstrative Pronouns", hint: "Use 'that' for a single distant object across the street." },
+      { id: 10, text: "_____ bicycle is parked in the driveway?", options: ["Who", "Whom", "Whose", "What"], ansCode: "Mg==", category: "Part 1: Interrogative Pronouns", hint: "'Whose' asks about ownership or possession." },
+      
+      { id: 11, text: "_____ are planning a trip to London next summer.", options: ["Us", "We", "Ourselves", "Our"], ansCode: "MQ==", category: "Part 1: Subject Pronouns", hint: "'We' is the subject pronoun for the sentence." },
+      { id: 12, text: "The principal wants to speak with _____ after class.", options: ["they", "them", "their", "theirs"], ansCode: "MQ==", category: "Part 1: Object Pronouns", hint: "'Them' is the object pronoun following the preposition 'with'." },
+      { id: 13, text: "Is this pen _____ or hers?", options: ["you", "your", "yours", "yourself"], ansCode: "Mg==", category: "Part 1: Possessive Pronouns", hint: "'Yours' is a standalone possessive pronoun." },
+      { id: 14, text: "_____ apples in this basket are sweet and crisp.", options: ["This", "That", "These", "Those"], ansCode: "Mg==", category: "Part 1: Demonstrative Pronouns", hint: "Plural nearby items require 'these'." },
+      { id: 15, text: "To _____ should I send this email invitation?", options: ["who", "whom", "whose", "which"], ansCode: "MQ==", category: "Part 1: Interrogative Pronouns", hint: "After a preposition like 'to', use object interrogative pronoun 'whom'." },
+      { id: 16, text: "David and _____ love playing board games on weekends.", options: ["her", "she", "hers", "herself"], ansCode: "MQ==", category: "Part 1: Subject Pronouns", hint: "'She' is part of the subject 'David and she'." },
+      { id: 17, text: "The noisy neighbors woke _____ up early in the morning.", options: ["we", "us", "our", "ours"], ansCode: "MQ==", category: "Part 1: Object Pronouns", hint: "'Us' is the object pronoun receiving the action 'woke'." },
+      { id: 18, text: "Our team scored more points than _____.", options: ["their", "them", "theirs", "they"], ansCode: "Mg==", category: "Part 1: Possessive Pronouns", hint: "'Theirs' replaces 'their team'." },
+      { id: 19, text: "_____ noise coming from the attic sounds scary.", options: ["This", "That", "These", "Those"], ansCode: "MQ==", category: "Part 1: Demonstrative Pronouns", hint: "Use 'that' for a singular noise coming from a distance." },
+      { id: 20, text: "_____ of these two options do you prefer?", options: ["Who", "Whom", "Which", "Whose"], ansCode: "Mg==", category: "Part 1: Interrogative Pronouns", hint: "'Which' asks for a choice between specific options." },
+
+      { id: 21, text: "_____ works as a nurse at the local hospital.", options: ["He", "Him", "His", "Himself"], ansCode: "MA==", category: "Part 1: Subject Pronouns", hint: "'He' is the subject pronoun performing the work." },
+      { id: 22, text: "Please give _____ a chance to explain.", options: ["he", "him", "his", "himself"], ansCode: "MQ==", category: "Part 1: Object Pronouns", hint: "'Him' receives the action 'give'." },
+      { id: 23, text: "The cat licked _____ paws after eating.", options: ["it", "its", "it's", "itself"], ansCode: "MQ==", category: "Part 1: Possessive Adjectives/Pronouns", hint: "Possessive 'its' has NO apostrophe." },
+      { id: 24, text: "Are _____ your keys on the counter?", options: ["this", "that", "these", "those"], ansCode: "Mg==", category: "Part 1: Demonstrative Pronouns", hint: "Plural items close by use 'these'." },
+      { id: 25, text: "_____ answered the phone when you called?", options: ["Who", "Whom", "Whose", "Which"], ansCode: "MA==", category: "Part 1: Interrogative Pronouns", hint: "'Who' is the subject who answered." },
+      { id: 26, text: "You and _____ should work together on the science project.", options: ["I", "me", "myself", "mine"], ansCode: "MA==", category: "Part 1: Subject Pronouns", hint: "'I' forms part of the subject 'You and I'." },
+      { id: 27, text: "The manager invited _____ to the annual dinner.", options: ["they", "them", "their", "themselves"], ansCode: "MQ==", category: "Part 1: Object Pronouns", hint: "'Them' receives the invitation." },
+      { id: 28, text: "Her dress is pretty, but I prefer _____.", options: ["your", "yours", "you", "yourself"], ansCode: "MQ==", category: "Part 1: Possessive Pronouns", hint: "'Yours' replaces 'your dress'." },
+      { id: 29, text: "_____ was a memorable vacation for our family.", options: ["This", "These", "Those", "There"], ansCode: "MA==", category: "Part 1: Demonstrative Pronouns", hint: "Singular demonstrative pronoun 'This'." },
+      { id: 30, text: "_____ of the students brought a camera?", options: ["Who", "Which", "Whom", "Whose"], ansCode: "MQ==", category: "Part 1: Interrogative Pronouns", hint: "'Which' identifies specific individuals from a group." },
+
+      { id: 31, text: "_____ enjoy reading novels in the evening.", options: ["They", "Them", "Their", "Themselves"], ansCode: "MA==", category: "Part 1: Subject Pronouns", hint: "'They' is the subject pronoun." },
+      { id: 32, text: "The dog followed _____ all the way home.", options: ["we", "us", "our", "ourselves"], ansCode: "MQ==", category: "Part 1: Object Pronouns", hint: "'Us' receives the action 'followed'." },
+      { id: 33, text: "Is this notebook _____ or Maria's?", options: ["your", "yours", "you", "yourself"], ansCode: "MQ==", category: "Part 1: Possessive Pronouns", hint: "'Yours' compares with 'Maria's'." },
+      { id: 34, text: "_____ star in the sky is shining very brightly tonight.", options: ["This", "That", "These", "Those"], ansCode: "MQ==", category: "Part 1: Demonstrative Pronouns", hint: "A distant single star uses 'that'." },
+      { id: 35, text: "_____ did you see at the party last night?", options: ["Who", "Whom", "Whose", "Which"], ansCode: "MQ==", category: "Part 1: Interrogative Pronouns", hint: "'Whom' is the object of 'did see'." },
+      { id: 36, text: "_____ is my best friend in class.", options: ["She", "Her", "Hers", "Herself"], ansCode: "MA==", category: "Part 1: Subject Pronouns", hint: "Subject pronoun 'She'." },
+      { id: 37, text: "The company sent _____ a confirmation letter.", options: ["I", "me", "my", "mine"], ansCode: "MQ==", category: "Part 1: Object Pronouns", hint: "'Me' receives the confirmation letter." },
+      { id: 38, text: "The house with the red door is _____.", options: ["our", "ours", "us", "we"], ansCode: "MQ==", category: "Part 1: Possessive Pronouns", hint: "'Ours' stands as possessive pronoun." },
+      { id: 39, text: "_____ shoes fit me perfectly.", options: ["This", "These", "That", "Them"], ansCode: "MQ==", category: "Part 1: Demonstrative Pronouns", hint: "Plural 'shoes' require 'these'." },
+      { id: 40, text: "_____ is the name of your new puppy?", options: ["Who", "What", "Which", "Whose"], ansCode: "MQ==", category: "Part 1: Interrogative Pronouns", hint: "'What' asks for specific non-person information." },
+
+      { id: 41, text: "_____ were excited to hear the good news.", options: ["We", "Us", "Our", "Ourselves"], ansCode: "MA==", category: "Part 1: Subject Pronouns", hint: "'We' performs the action/state." },
+      { id: 42, text: "Uncle Mark bought gifts for _____.", options: ["she and I", "her and me", "she and me", "her and I"], ansCode: "MQ==", category: "Part 1: Object Pronouns", hint: "Both pronouns follow preposition 'for' and must be objects ('her and me')." },
+      { id: 43, text: "That laptop is _____, not his.", options: ["her", "hers", "she", "herself"], ansCode: "MQ==", category: "Part 1: Possessive Pronouns", hint: "'Hers' is the proper possessive pronoun." },
+      { id: 44, text: "_____ was a great performance by the orchestra.", options: ["This", "These", "Those", "Them"], ansCode: "MA==", category: "Part 1: Demonstrative Pronouns", hint: "Singular demonstrative pronoun 'This'." },
+      { id: 45, text: "_____ umbrella is this lying on the floor?", options: ["Who", "Whom", "Whose", "Which"], ansCode: "Mg==", category: "Part 1: Interrogative Pronouns", hint: "'Whose' asks about possession." },
+      { id: 46, text: "_____ must always wear a seatbelt while driving.", options: ["You", "Your", "Yours", "Yourself"], ansCode: "MA==", category: "Part 1: Subject Pronouns", hint: "'You' is the subject." },
+      { id: 47, text: "The teacher helped _____ with the difficult math problem.", options: ["he", "him", "his", "himself"], ansCode: "MQ==", category: "Part 1: Object Pronouns", hint: "'Him' receives the help." },
+      { id: 48, text: "My garden is small, but _____ is huge.", options: ["their", "theirs", "them", "they"], ansCode: "MQ==", category: "Part 1: Possessive Pronouns", hint: "'Theirs' replaces 'their garden'." },
+      { id: 49, text: "_____ mountains in the distance look covered in snow.", options: ["This", "That", "These", "Those"], ansCode: "Mw==", category: "Part 1: Demonstrative Pronouns", hint: "Plural distant objects use 'those'." },
+      { id: 50, text: "_____ of the two routes is faster?", options: ["What", "Which", "Who", "Whose"], ansCode: "MQ==", category: "Part 1: Interrogative Pronouns", hint: "'Which' compares two specific choices." },
+
+      { id: 51, text: "John built the wooden bookshelf all by _____.", options: ["him", "his", "himself", "his self"], ansCode: "Mg==", category: "Part 2: Reflexive Pronouns", hint: "Singular masculine reflexive pronoun is 'himself'." },
+      { id: 52, text: "The students solved the complex problem _____.", options: ["theirself", "themselves", "theirselves", "themself"], ansCode: "MQ==", category: "Part 2: Reflexive Pronouns", hint: "Plural reflexive pronoun is 'themselves' (never 'theirselves')." },
+      { id: 53, text: "The mayor _____ presented the award to the winner.", options: ["himself", "him", "his", "he"], ansCode: "MA==", category: "Part 2: Intensive Pronouns", hint: "'Himself' adds intensive emphasis to 'The mayor'." },
+      { id: 54, text: "The girl _____ won the essay contest received a trophy.", options: ["who", "whom", "whose", "which"], ansCode: "MA==", category: "Part 2: Relative Pronouns", hint: "'Who' refers to 'girl' as subject of 'won'." },
+      { id: 55, text: "The author _____ book became a bestseller visited our town.", options: ["who", "whom", "whose", "that"], ansCode: "Mg==", category: "Part 2: Relative Pronouns", hint: "'Whose' shows possession of the book." },
+      { id: 56, text: "_____ in the classroom was listening attentively.", options: ["Everyone", "All", "Both", "Many"], ansCode: "MA==", category: "Part 2: Indefinite Pronouns", hint: "'Everyone' is singular and agrees with 'was'." },
+      { id: 57, text: "_____ of the two answers is correct.", options: ["Neither", "No one", "All", "Many"], ansCode: "MA==", category: "Part 2: Indefinite Pronouns", hint: "'Neither' refers to two items in singular form." },
+      { id: 58, text: "I made _____ a warm cup of tea after coming home.", options: ["me", "myself", "mine", "I"], ansCode: "MQ==", category: "Part 2: Reflexive Pronouns", hint: "When subject and object are 'I', use 'myself'." },
+      { id: 59, text: "The cat cleaned _____ after eating dinner.", options: ["its", "itself", "it", "it's"], ansCode: "MQ==", category: "Part 2: Reflexive Pronouns", hint: "Reflexive pronoun for an animal/thing is 'itself'." },
+      { id: 60, text: "The cake _____ was delicious, even without icing.", options: ["itself", "it", "its", "it's"], ansCode: "MA==", category: "Part 2: Intensive Pronouns", hint: "'Itself' emphasizes 'The cake'." },
+
+      { id: 61, text: "Is there _____ who can answer this question?", options: ["anyone", "everyone", "both", "few"], ansCode: "MA==", category: "Part 2: Indefinite Pronouns", hint: "Use 'anyone' in singular questions." },
+      { id: 62, text: "The man to _____ you spoke is my uncle.", options: ["who", "whom", "whose", "which"], ansCode: "MQ==", category: "Part 2: Relative Pronouns", hint: "After preposition 'to', use relative object pronoun 'whom'." },
+      { id: 63, text: "The car _____ was parked outside has been moved.", options: ["who", "whom", "which", "whose"], ansCode: "Mg==", category: "Part 2: Relative Pronouns", hint: "Use 'which' or 'that' for inanimate objects like cars." },
+      { id: 64, text: "Each of the dancers performed _____ routine perfectly.", options: ["their", "her", "they're", "them"], ansCode: "MQ==", category: "Part 2: Pronoun Antecedent", hint: "'Each' is singular, requiring singular pronoun 'her' or 'his'." },
+      { id: 65, text: "_____ of the apples in the bag were rotten.", options: ["Some", "One", "Each", "Every"], ansCode: "MA==", category: "Part 2: Indefinite Pronouns", hint: "'Some' agrees with plural verb 'were'." },
+      { id: 66, text: "She prepared the entire feast by _____.", options: ["herself", "her", "hers", "her self"], ansCode: "MA==", category: "Part 2: Reflexive Pronouns", hint: "Reflexive 'herself'." },
+      { id: 67, text: "We completed the project _____ without any external help.", options: ["ourself", "ourselves", "us", "our"], ansCode: "MQ==", category: "Part 2: Reflexive Pronouns", hint: "Plural 'we' requires 'ourselves'." },
+      { id: 68, text: "The doctor _____ performed the surgery explained the procedure.", options: ["who", "whom", "which", "whose"], ansCode: "MA==", category: "Part 2: Relative Pronouns", hint: "'Who' refers to people in subject position." },
+      { id: 69, text: "This is the phone _____ I bought last week.", options: ["who", "that", "whom", "whose"], ansCode: "MQ==", category: "Part 2: Relative Pronouns", hint: "Use 'that' or 'which' for non-person items." },
+      { id: 70, text: "_____ is knocking loudly at the front door.", options: ["Somebody", "Several", "Both", "Few"], ansCode: "MA==", category: "Part 2: Indefinite Pronouns", hint: "'Somebody' is singular matching 'is'." },
+
+      { id: 71, text: "Neither of the boys brought _____ backpack today.", options: ["his", "their", "them", "they"], ansCode: "MA==", category: "Part 2: Pronoun Antecedent", hint: "'Neither' is singular, so it takes singular possessive 'his'." },
+      { id: 72, text: "You should be proud of _____ for passing the exam!", options: ["yourself", "you", "your", "yours"], ansCode: "MA==", category: "Part 2: Reflexive Pronouns", hint: "Reflexive singular 'yourself'." },
+      { id: 73, text: "The queen _____ greeted the cheering crowd.", options: ["herself", "her", "she", "hers"], ansCode: "MA==", category: "Part 2: Intensive Pronouns", hint: "'Herself' intensifies 'The queen'." },
+      { id: 74, text: "The student _____ project won first place was thrilled.", options: ["who", "whom", "whose", "which"], ansCode: "Mg==", category: "Part 2: Relative Pronouns", hint: "Possessive relative pronoun 'whose'." },
+      { id: 75, text: "_____ of the students submitted their assignments on time.", options: ["Many", "Much", "Every", "Each one"], ansCode: "MA==", category: "Part 2: Indefinite Pronouns", hint: "'Many' is a plural indefinite pronoun matching 'submitted'." },
+      { id: 76, text: "Nobody brought _____ umbrella to the park.", options: ["his or her", "their", "they", "them"], ansCode: "MA==", category: "Part 2: Pronoun Antecedent", hint: "'Nobody' is grammatically singular ('his or her')." },
+      { id: 77, text: "The children behaved _____ very well at the museum.", options: ["theirself", "themselves", "theirselves", "them"], ansCode: "MQ==", category: "Part 2: Reflexive Pronouns", hint: "Plural reflexive 'themselves'." },
+      { id: 78, text: "I bought a sweater _____ is made of pure wool.", options: ["who", "that", "whom", "whose"], ansCode: "MQ==", category: "Part 2: Relative Pronouns", hint: "'That' connects the sweater clause." },
+      { id: 79, text: "The woman with _____ I traveled spoke three languages.", options: ["who", "whom", "whose", "which"], ansCode: "MQ==", category: "Part 2: Relative Pronouns", hint: "Preposition 'with' + 'whom'." },
+      { id: 80, text: "_____ of the water in the pitcher was spilled.", options: ["Some", "Few", "Many", "Several"], ansCode: "MA==", category: "Part 2: Indefinite Pronouns", hint: "'Water' is uncountable, so use 'Some' with singular verb 'was'." },
+
+      { id: 81, text: "Every girl must bring _____ own water bottle.", options: ["her", "their", "hers", "them"], ansCode: "MA==", category: "Part 2: Pronoun Antecedent", hint: "'Every' makes the subject singular female 'her'." },
+      { id: 82, text: "He hurt _____ while playing basketball yesterday.", options: ["himself", "him", "his", "his self"], ansCode: "MA==", category: "Part 2: Reflexive Pronouns", hint: "Reflexive 'himself'." },
+      { id: 83, text: "We _____ verified all the figures in the report.", options: ["ourselves", "us", "our", "ourself"], ansCode: "MA==", category: "Part 2: Intensive Pronouns", hint: "Intensive 'ourselves'." },
+      { id: 84, text: "This is the house in _____ I grew up.", options: ["which", "that", "where", "who"], ansCode: "MA==", category: "Part 2: Relative Pronouns", hint: "Preposition 'in' takes relative pronoun 'which'." },
+      { id: 85, text: "_____ was left in the classroom after the bell rang.", options: ["Nothing", "Few", "Many", "Both"], ansCode: "MA==", category: "Part 2: Indefinite Pronouns", hint: "'Nothing' is singular matching 'was'." },
+      { id: 86, text: "One of the girls lost _____ wallet at the mall.", options: ["her", "their", "hers", "them"], ansCode: "MA==", category: "Part 2: Pronoun Antecedent", hint: "Subject is 'One' (singular female = 'her')." },
+      { id: 87, text: "The puppy saw _____ in the mirror and barked.", options: ["itself", "it", "its", "him"], ansCode: "MA==", category: "Part 2: Reflexive Pronouns", hint: "Reflexive 'itself'." },
+      { id: 88, text: "The teacher _____ taught us science has retired.", options: ["who", "whom", "whose", "which"], ansCode: "MA==", category: "Part 2: Relative Pronouns", hint: "Subject relative pronoun 'who'." },
+      { id: 89, text: "To _____ was the letter addressed?", options: ["who", "whom", "whose", "which"], ansCode: "MQ==", category: "Part 2: Interrogative/Relative", hint: "Preposition 'To' + 'whom'." },
+      { id: 90, text: "_____ of the two applicants were hired.", options: ["Both", "Each", "Either", "Neither"], ansCode: "MA==", category: "Part 2: Indefinite Pronouns", hint: "'Both' is plural matching verb 'were'." },
+
+      { id: 91, text: "Don't worry about us; we can take care of _____.", options: ["ourselves", "ourself", "us", "we"], ansCode: "MA==", category: "Part 2: Reflexive Pronouns", hint: "Plural reflexive 'ourselves'." },
+      { id: 92, text: "The manager _____ handled the customer complaint.", options: ["himself", "his", "he", "him"], ansCode: "MA==", category: "Part 2: Intensive Pronouns", hint: "Intensive pronoun 'himself'." },
+      { id: 93, text: "The artist _____ painting won first prize was humble.", options: ["whose", "who", "whom", "which"], ansCode: "MA==", category: "Part 2: Relative Pronouns", hint: "Possessive relative 'whose'." },
+      { id: 94, text: "_____ has forgotten their jacket on the bench.", options: ["Someone", "Several", "Many", "Both"], ansCode: "MA==", category: "Part 2: Indefinite Pronouns", hint: "Singular indefinite 'Someone' matches 'has'." },
+      { id: 95, text: "Each member of the team received _____ certificate.", options: ["his or her", "their", "them", "they"], ansCode: "MA==", category: "Part 2: Pronoun Antecedent", hint: "'Each' is singular requiring singular possessive ('his or her')." },
+      { id: 96, text: "You can do this exercise all by _____.", options: ["yourself", "you", "your", "yours"], ansCode: "MA==", category: "Part 2: Reflexive Pronouns", hint: "Reflexive singular 'yourself'." },
+      { id: 97, text: "The document _____ you requested is attached.", options: ["which", "who", "whom", "whose"], ansCode: "MA==", category: "Part 2: Relative Pronouns", hint: "'Which' or 'that' for inanimate document." },
+      { id: 98, text: "_____ of the options sounds reasonable to me.", options: ["Neither", "Both", "Many", "Several"], ansCode: "MA==", category: "Part 2: Indefinite Pronouns", hint: "'Neither' is singular matching 'sounds'." },
+      { id: 99, text: "The players _____ were tired after the long match.", options: ["themselves", "theirself", "them", "their"], ansCode: "MA==", category: "Part 2: Intensive Pronouns", hint: "Intensive 'themselves'." },
+      { id: 100, text: "Congratulations on Question 100! In 'She taught herself Spanish', what pronoun type is 'herself'?", options: ["Reflexive Pronoun", "Possessive Pronoun", "Relative Pronoun", "Indefinite Pronoun"], ansCode: "MA==", category: "Part 2: Pronoun Classification", hint: "'Herself' acts as the object receiving the action of the subject 'She' (Reflexive)." }
+    ];
+
+    let studentName = "";
+    let studentEmail = "";
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let flaggedQuestions = new Array(questions.length).fill(false);
+    let timerSeconds = 4500; // 75 minutes
+    let timerInterval = null;
+    let examStartTime = null;
+    let examEndTime = null;
+
+    function switchTab(tabName) {
+      document.getElementById('view-landing').classList.add('hidden');
+      document.getElementById('view-reviewer').classList.add('hidden');
+      document.getElementById('view-exam').classList.add('hidden');
+      document.getElementById('view-results').classList.add('hidden');
+
+      document.getElementById('nav-reviewer-btn').className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 " + (tabName === 'reviewer' ? "bg-rose-100 text-paletteMagenta" : "bg-slate-100 text-slate-600 hover:bg-slate-200");
+      document.getElementById('nav-exam-btn').className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 " + (tabName === 'exam' || tabName === 'landing' ? "bg-rose-100 text-paletteMagenta" : "bg-slate-100 text-slate-600 hover:bg-slate-200");
+
+      if (tabName === 'landing') document.getElementById('view-landing').classList.remove('hidden');
+      else if (tabName === 'reviewer') document.getElementById('view-reviewer').classList.remove('hidden');
+      else if (tabName === 'exam') document.getElementById('view-exam').classList.remove('hidden');
+      else if (tabName === 'results') document.getElementById('view-results').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleRegistrationSubmit(event) {
+      event.preventDefault();
+      studentName = document.getElementById('student-name').value.trim();
+      studentEmail = document.getElementById('student-email').value.trim();
+
+      if (!studentName || !studentEmail) {
+        alert("Please enter both your Full Name and Email address.");
+        return;
+      }
+
+      startExamPrep();
+    }
+
+    function startExamPrep() {
+      currentQuestionIndex = 0;
+      userAnswers = new Array(questions.length).fill(null);
+      flaggedQuestions = new Array(questions.length).fill(false);
+      timerSeconds = 4500; 
+      examStartTime = new Date();
+
+      renderPaletteGrid();
+      renderCurrentQuestion();
+      startTimer();
+      switchTab('exam');
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        timerSeconds--;
+        updateTimerDisplay();
+        if (timerSeconds <= 0) {
+          clearInterval(timerInterval);
+          alert("Time is up! Your e-quiz will now be submitted automatically.");
+          submitExam();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      const displayStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      const timerDisplayElem = document.getElementById('timer-display');
+      const timerBadgeElem = document.getElementById('timer-badge');
+      
+      timerDisplayElem.innerText = displayStr;
+
+      if (timerSeconds < 600) {
+        timerBadgeElem.className = "flex items-center gap-2 bg-rose-100 text-rose-800 px-3 py-1.5 rounded-xl border border-rose-300 animate-pulse";
+      } else {
+        timerBadgeElem.className = "flex items-center gap-2 bg-pink-50 px-3 py-1.5 rounded-xl border border-pink-100 transition-colors";
+      }
+    }
+
+    function renderCurrentQuestion() {
+      const q = questions[currentQuestionIndex];
+      
+      document.getElementById('current-question-num').innerText = q.id;
+      document.getElementById('question-category').innerText = `Q${q.id} • ${q.category}`;
+      document.getElementById('question-text').innerText = `${q.id}. ${q.text}`;
+
+      const isFlagged = flaggedQuestions[currentQuestionIndex];
+      document.getElementById('flag-text').innerText = isFlagged ? "Flagged" : "Flag Question";
+      document.getElementById('flag-btn').className = `flex items-center gap-1.5 text-xs font-bold transition ${isFlagged ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}`;
+
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+
+      const selectedOption = userAnswers[currentQuestionIndex];
+
+      q.options.forEach((optionText, idx) => {
+        const isSelected = (selectedOption === idx);
+        
+        let optionClass = "w-full p-4 rounded-2xl border text-left text-xs sm:text-sm font-semibold transition flex items-center justify-between cursor-pointer ";
+        if (isSelected) {
+          optionClass += "border-paletteMagenta bg-pink-50/80 text-paletteMagenta shadow-sm";
+        } else {
+          optionClass += "border-slate-200 bg-white text-slate-700 hover:border-pink-200 hover:bg-slate-50";
+        }
+
+        const optionButton = document.createElement('button');
+        optionButton.className = optionClass;
+        optionButton.onclick = () => selectOption(idx);
+        
+        const optionLabel = String.fromCharCode(65 + idx);
+        
+        optionButton.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="w-7 h-7 rounded-xl ${isSelected ? 'bg-paletteMagenta text-white' : 'bg-slate-100 text-slate-600'} flex items-center justify-center font-bold text-xs">${optionLabel}</span>
+            <span>${optionText}</span>
+          </div>
+          ${isSelected ? '<i class="fa-solid fa-circle-check text-paletteMagenta text-lg"></i>' : ''}
+        `;
+        
+        optionsContainer.appendChild(optionButton);
+      });
+
+      document.getElementById('prev-btn').disabled = (currentQuestionIndex === 0);
+      document.getElementById('next-btn').innerHTML = (currentQuestionIndex === questions.length - 1) 
+        ? 'Finish <i class="fa-solid fa-check ml-1"></i>' 
+        : 'Next <i class="fa-solid fa-chevron-right ml-1"></i>';
+
+      updatePaletteHighlights();
+      updateProgressBar();
+    }
+
+    function selectOption(optionIndex) {
+      userAnswers[currentQuestionIndex] = optionIndex;
+      renderCurrentQuestion();
+      renderPaletteGrid();
+    }
+
+    function toggleFlagCurrentQuestion() {
+      flaggedQuestions[currentQuestionIndex] = !flaggedQuestions[currentQuestionIndex];
+      renderCurrentQuestion();
+      renderPaletteGrid();
+    }
+
+    function nextQuestion() {
+      if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex++;
+        renderCurrentQuestion();
+      } else {
+        confirmSubmitExam();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderCurrentQuestion();
+      }
+    }
+
+    function jumpToQuestion(qNum) {
+      currentQuestionIndex = qNum - 1;
+      renderCurrentQuestion();
+    }
+
+    function renderPaletteGrid() {
+      const paletteContainer = document.getElementById('palette-grid');
+      paletteContainer.innerHTML = '';
+
+      questions.forEach((q, idx) => {
+        const isAnswered = (userAnswers[idx] !== null);
+        const isFlagged = flaggedQuestions[idx];
+        const isCurrent = (idx === currentQuestionIndex);
+
+        let btnClass = "w-full aspect-square rounded-xl text-xs font-bold flex items-center justify-center transition relative ";
+        
+        if (isCurrent) btnClass += "ring-2 ring-slate-900 ring-offset-1 ";
+
+        if (isFlagged) {
+          btnClass += "bg-amber-400 text-white ";
+        } else if (isAnswered) {
+          btnClass += "bg-paletteMagenta text-white ";
+        } else {
+          btnClass += "bg-slate-100 text-slate-600 hover:bg-slate-200 ";
+        }
+
+        const btn = document.createElement('button');
+        btn.className = btnClass;
+        btn.innerText = q.id;
+        btn.onclick = () => jumpToQuestion(q.id);
+
+        if (isFlagged) {
+          const flagDot = document.createElement('span');
+          flagDot.className = "absolute -top-1 -right-1 w-2.5 h-2.5 bg-rose-500 rounded-full border border-white";
+          btn.appendChild(flagDot);
+        }
+
+        paletteContainer.appendChild(btn);
+      });
+
+      const answeredCount = userAnswers.filter(a => a !== null).length;
+      document.getElementById('answered-count-badge').innerText = `${answeredCount}/100`;
+    }
+
+    function updatePaletteHighlights() {
+      renderPaletteGrid();
+    }
+
+    function updateProgressBar() {
+      const answeredCount = userAnswers.filter(a => a !== null).length;
+      const percentage = Math.round((answeredCount / questions.length) * 100);
+      document.getElementById('progress-bar-inner').style.width = `${percentage}%`;
+      document.getElementById('progress-percent').innerText = `${percentage}%`;
+    }
+
+    function confirmSubmitExam() {
+      const answeredCount = userAnswers.filter(a => a !== null).length;
+      const unanswered = questions.length - answeredCount;
+      
+      let confirmMsg = `Are you sure you want to submit your e-quiz?\n\nYou have answered ${answeredCount} of 100 questions.`;
+      if (unanswered > 0) {
+        confirmMsg += `\nWarning: You have ${unanswered} unanswered questions!`;
+      }
+
+      if (window.confirm(confirmMsg)) {
+        submitExam();
+      }
+    }
+
+    function submitExam() {
+      clearInterval(timerInterval);
+      examEndTime = new Date();
+      
+      let correctCount = 0;
+      const answersSummaryList = [];
+
+      questions.forEach((q, idx) => {
+        const selected = userAnswers[idx];
+        const correctIndex = parseInt(atob(q.ansCode), 10);
+        const isCorrect = (selected === correctIndex);
+        if (isCorrect) correctCount++;
+
+        const userAnsLabel = (selected !== null) ? `${String.fromCharCode(65 + selected)} (${q.options[selected]})` : "No Answer";
+        const correctAnsLabel = `${String.fromCharCode(65 + correctIndex)} (${q.options[correctIndex]})`;
+        answersSummaryList.push(`Q${q.id}: ${isCorrect ? '✓ CORRECT' : '✗ WRONG'} | Student Answer: ${userAnsLabel} | Correct: ${correctAnsLabel}`);
+      });
+
+      const percentage = Math.round((correctCount / questions.length) * 100);
+      const isPassed = percentage >= 75;
+
+      const timeDiffSeconds = Math.floor((examEndTime - examStartTime) / 1000);
+      const minsUsed = Math.floor(timeDiffSeconds / 60);
+      const secsUsed = timeDiffSeconds % 60;
+      const timeUsedStr = `${minsUsed}m ${secsUsed}s`;
+
+      document.getElementById('res-student-name').innerText = studentName || 'Not Provided';
+      document.getElementById('res-student-email').innerText = studentEmail || 'Not Provided';
+      document.getElementById('final-score').innerText = `${correctCount}/100`;
+      document.getElementById('final-percentage').innerText = `${percentage}%`;
+      document.getElementById('final-time-used').innerText = timeUsedStr;
+
+      const statusElem = document.getElementById('final-status');
+      if (isPassed) {
+        statusElem.innerText = "PASSED";
+        statusElem.className = "text-2xl font-bold font-heading text-emerald-600";
+        document.getElementById('result-title').innerText = "Congratulations! You Passed!";
+      } else {
+        statusElem.innerText = "FAILED";
+        statusElem.className = "text-2xl font-bold font-heading text-rose-600";
+        document.getElementById('result-title').innerText = "E-Quiz Completed";
+      }
+
+      renderDetailedReviewCards('all');
+      switchTab('results');
+
+      sendFormSubmitPayload(studentName, studentEmail, correctCount, percentage, isPassed ? 'PASSED' : 'FAILED', timeUsedStr, answersSummaryList);
+    }
+
+    function sendFormSubmitPayload(name, email, score, percent, status, timeElapsed, summary) {
+      const statusAlert = document.getElementById('submission-status-alert');
+      statusAlert.className = "p-3.5 rounded-2xl text-xs font-semibold flex items-center justify-center gap-2 bg-blue-50 text-blue-800 border border-blue-200";
+      statusAlert.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting results to mariaeftongga@gmail.com...`;
+
+      const payload = {
+        _subject: `Grammar Starter E-Quiz Results - ${name} (${score}/100 - ${percent}%)`,
+        _template: "table",
+        _captcha: "false",
+        "Student Name": name,
+        "Student Email": email,
+        "Final Score": `${score}/100`,
+        "Percentage": `${percent}%`,
+        "Exam Status": status,
+        "Time Spent": timeElapsed,
+        "Submission Date": new Date().toLocaleString(),
+        "Itemized Answers Record": summary.join("\n")
+      };
+
+      fetch("https://formsubmit.co/ajax/mariaeftongga@gmail.com", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(data => {
+        statusAlert.className = "p-3.5 rounded-2xl text-xs font-semibold flex items-center justify-center gap-2 bg-emerald-50 text-emerald-800 border border-emerald-200";
+        statusAlert.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Results successfully sent to Ms. Maria (mariaeftongga@gmail.com)!`;
+      })
+      .catch(error => {
+        console.error("Submission error:", error);
+        statusAlert.className = "p-3.5 rounded-2xl text-xs font-semibold flex items-center justify-center gap-2 bg-amber-50 text-amber-900 border border-amber-200";
+        statusAlert.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Results successfully logged.`;
+      });
+    }
+
+    function renderDetailedReviewCards(filter) {
+      const reviewList = document.getElementById('item-review-list');
+      reviewList.innerHTML = '';
+
+      questions.forEach((q, idx) => {
+        const userAnsIdx = userAnswers[idx];
+        const correctIndex = parseInt(atob(q.ansCode), 10);
+        const isCorrect = (userAnsIdx === correctIndex);
+
+        if (filter === 'incorrect' && isCorrect) return;
+
+        const card = document.createElement('div');
+        card.className = `p-4 sm:p-5 rounded-2xl border ${isCorrect ? 'border-emerald-100 bg-emerald-50/30' : 'border-rose-100 bg-rose-50/30'} space-y-3`;
+
+        const userChoiceText = (userAnsIdx !== null) ? q.options[userAnsIdx] : 'No Answer Selected';
+        const correctChoiceText = q.options[correctIndex];
+
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full ${isCorrect ? 'bg-emerald-500' : 'bg-rose-500'} text-white text-xs font-bold flex items-center justify-center">
+                ${q.id}
+              </span>
+              <span class="text-xs font-bold text-slate-500">${q.category}</span>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+              ${isCorrect ? 'Correct' : 'Incorrect'}
+            </span>
+          </div>
+
+          <p class="text-sm font-bold text-slate-800">${q.text}</p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div class="p-2.5 rounded-xl border ${isCorrect ? 'bg-white border-emerald-200 text-emerald-900' : 'bg-white border-rose-200 text-rose-900'}">
+              <span class="text-[10px] uppercase font-bold block opacity-70">Your Answer:</span>
+              <span class="font-bold">${userChoiceText}</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-white border border-emerald-200 text-emerald-900">
+              <span class="text-[10px] uppercase font-bold block text-emerald-600">Correct Answer:</span>
+              <span class="font-bold">${correctChoiceText}</span>
+            </div>
+          </div>
+
+          <div class="bg-white/80 p-3 rounded-xl border border-slate-100 text-xs text-slate-600 flex items-start gap-2">
+            <i class="fa-solid fa-circle-info text-paletteMagenta mt-0.5"></i>
+            <div>
+              <strong class="text-slate-800">Explanation:</strong> ${q.hint}
+            </div>
+          </div>
+        `;
+
+        reviewList.appendChild(card);
+      });
+    }
+
+    function filterReview(type) {
+      renderDetailedReviewCards(type);
+    }
+
+    function retakeExam() {
+      switchTab('landing');
+    }
+
+    window.onload = function() {
+      switchTab('landing');
+    };
+  </script>
+</body>
+</html>
